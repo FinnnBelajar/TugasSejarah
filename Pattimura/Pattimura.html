@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perlawanan Kapitan Pattimura (1817)</title>
+    <style>
+      /* Standar Reset */
+      body,
+      h1,
+      h2,
+      h3,
+      p,
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Tema & Font */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f4f1ea; /* Latar belakang krem/kertas tua */
+        color: #333;
+      }
+
+      /* Kontainer Utama */
+      .container {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 0;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+      }
+
+      /* Header Halaman (Dengan Gambar Latar) */
+      header {
+        text-align: center;
+        padding: 40px 20px;
+        color: white;
+        background-image: url("IMG-20251106-WA0010.jpg"); /* Pastikan nama file ini benar */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      /* Overlay gelap untuk header */
+      header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+        margin-bottom: 5px;
+        position: relative;
+        z-index: 2;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+      header p {
+        font-size: 1.1em;
+        font-style: italic;
+        position: relative;
+        z-index: 2;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      /* Konten Utama */
+      main {
+        padding: 20px 30px;
+      }
+
+      /* Gaya Tiap Bagian */
+      .section {
+        margin-bottom: 30px;
+      }
+      .section h2 {
+        font-size: 1.8em;
+        color: #8b0000;
+        border-bottom: 3px solid #f4f1ea;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+      .section p {
+        font-size: 1em;
+        margin-bottom: 15px;
+        text-align: justify;
+      }
+      .section ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+
+      /* Bagian Tokoh (Grid) */
+      .tokoh-grid {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fit,
+          minmax(180px, 1fr)
+        ); /* Sedikit lebih kecil untuk gambar */
+        gap: 20px;
+      }
+      .tokoh-card {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer; /* Menunjukkan bisa diklik */
+      }
+      .tokoh-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .tokoh-card img {
+        width: 100px; /* Ukuran gambar tokoh */
+        height: 100px;
+        object-fit: cover; /* Pastikan gambar mengisi area tanpa terdistorsi */
+        border-radius: 50%; /* Membuat gambar bulat */
+        margin-bottom: 10px;
+        border: 2px solid #8b0000;
+      }
+      .tokoh-card h3 {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 5px;
+      }
+      .tokoh-card p {
+        font-size: 0.9em;
+        color: #555;
+        text-align: center;
+        margin-bottom: 0;
+        /* overflow: hidden; */ /* Untuk menyembunyikan sebagian teks */
+        /* text-overflow: ellipsis; */
+        /* white-space: nowrap; */
+      }
+
+      /* Bagian Fakta Menarik (List) */
+      .fakta-list {
+        list-style-type: none;
+      }
+      .fakta-list li {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 10px;
+        font-size: 1em;
+      }
+      .fakta-list li::before {
+        content: "⭐";
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 1.2em;
+      }
+
+      /* Gambar lain */
+      .image-container {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .image-container figcaption {
+        font-style: italic;
+        color: #777;
+        margin-top: 5px;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        margin: 20px 0;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        color: #888;
+      }
+
+      /* --- STYLES UNTUK MODAL (POPUP) --- */
+      .modal {
+        display: none; /* Sembunyikan secara default */
+        position: fixed; /* Tetap di viewport */
+        z-index: 1000; /* Di atas semua elemen lain */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Aktifkan scroll jika kontennya besar */
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.6
+        ); /* Latar belakang gelap transparan */
+        backdrop-filter: blur(5px); /* Efek blur di belakang modal */
+        -webkit-backdrop-filter: blur(5px); /* Untuk kompatibilitas Safari */
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto; /* Memusatkan modal */
+        padding: 30px;
+        border: 1px solid #888;
+        border-radius: 10px;
+        width: 80%; /* Lebar modal */
+        max-width: 500px; /* Batas lebar modal */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        position: relative;
+        animation: fadeIn 0.3s ease-out; /* Animasi muncul */
+        color: #333; /* Warna teks di modal */
+        text-align: left; /* Teks penjelasan kembali rata kiri */
+      }
+
+      .modal-content h3 {
+        font-size: 1.8em;
+        color: #8b0000;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .modal-content img {
+        display: block;
+        margin: 0 auto 15px auto;
+        width: 120px; /* Ukuran gambar di modal */
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #8b0000;
+      }
+
+      .modal-content p {
+        font-size: 1.1em;
+        line-height: 1.8;
+        text-align: justify;
+      }
+
+      .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .close-button:hover,
+      .close-button:focus {
+        color: #8b0000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Perlawanan Kapitan Pattimura</h1>
+        <p>Api Perjuangan dari Tanah Maluku (1817)</p>
+      </header>
+
+      <main>
+        <section id="latar-belakang" class="section">
+          <h2>Latar Belakang Perlawanan</h2>
+          <p>
+            Perlawanan Pattimura dilatarbelakangi oleh kembalinya pemerintahan
+            kolonial Belanda ke Maluku setelah masa pendudukan Inggris
+            (1811-1816). Belanda memberlakukan kembali kebijakan yang sangat
+            menindas rakyat:
+          </p>
+          <ul>
+            <li>
+              <strong>Monopoli Rempah-rempah:</strong> Belanda kembali
+              memaksakan monopoli cengkeh dan pala melalui pelayaran hongi yang
+              merugikan rakyat.
+            </li>
+            <li>
+              <strong>Kerja Paksa:</strong> Rakyat dipaksa bekerja untuk
+              kepentingan Belanda tanpa upah yang layak, termasuk membangun
+              benteng dan menjadi tentara.
+            </li>
+            <li>
+              <strong>Peredaran Uang Kertas:</strong> Belanda mengganti
+              pembayaran rempah-rempah dengan uang kertas yang tidak dipercayai
+              oleh rakyat Maluku, menggantikan uang logam.
+            </li>
+            <li>
+              <strong>Sikap Arogan:</strong> Residen Saparua, Van den Berg,
+              bersikap sombong dan tidak menghargai para raja dan pemimpin
+              lokal.
+            </li>
+          </ul>
+          <p>
+            Puncak kemarahan rakyat terjadi dalam sebuah pertemuan rahasia di
+            Hutan Kayuputih, di mana mereka sepakat untuk mengangkat
+            <strong>Thomas Matulessy (Kapitan Pattimura)</strong> sebagai
+            pemimpin perlawanan.
+          </p>
+        </section>
+
+        <div class="image-container">
+          <img src="monu.jpg" />
+          <figcaption>Monumen Kapitan Pattimura di Ambon</figcaption>
+        </div>
+
+        <section id="peristiwa" class="section">
+          <h2>Rangkaian Peristiwa</h2>
+          <p>
+            Perlawanan dimulai pada 14 Mei 1817 dengan menghancurkan
+            perahu-perahu Belanda di pelabuhan Porto. Puncaknya adalah pada
+            <strong>16 Mei 1817</strong>, di mana pasukan Pattimura berhasil
+            merebut <strong>Benteng Duurstede</strong> di Saparua.
+          </p>
+          <p>
+            Dalam serangan yang heroik itu, Residen Van den Berg tewas beserta
+            hampir seluruh tentara Belanda di dalam benteng. Keberhasilan ini
+            mengobarkan semangat perlawanan di pulau-pulau sekitarnya, seperti
+            Haruku, Nusalaut, dan Seram. Belanda, yang tidak terima, mengirimkan
+            pasukan besar-besaran di bawah pimpinan Laksamana Buyskes.
+          </p>
+          <p>
+            Perang berlangsung berbulan-bulan. Namun, akibat pengkhianatan dari
+            orang dalam, Pattimura akhirnya tertangkap pada November 1817. Ia
+            ditawari kerja sama oleh Belanda namun menolak dengan tegas. Pada
+            <strong>16 Desember 1817</strong>, Kapitan Pattimura dieksekusi
+            gantung di depan Benteng Nieuw Victoria, Ambon.
+          </p>
+        </section>
+
+        <section id="tokoh" class="section">
+          <h2>Tokoh-Tokoh Kunci</h2>
+          <div class="tokoh-grid">
+            <div class="tokoh-card" onclick="openModal('pattimura')">
+              <img src="Pattimura.jpeg" alt="Gambar Pattimura" />
+              <h3>Kapitan Pattimura</h3>
+              <p>(Thomas Matulessy)</p>
+            </div>
+            <div class="tokoh-card" onclick="openModal('christina')">
+              <img src="kristina.jpeg" alt="Gambar Christina Martha Tiahahu" />
+              <h3>Christina Martha Tiahahu</h3>
+              <p>Putri Kapitan Paulus Tiahahu</p>
+            </div>
+            <div class="tokoh-card" onclick="openModal('reebhok')">
+              <img src="thoni.jpeg" alt="Gambar Anthoni Reebhok" />
+              <h3>Anthoni Reebhok</h3>
+              <p>Kapitan Kepercayaan</p>
+            </div>
+            <div class="tokoh-card" onclick="openModal('paulus')">
+              <img src="Paulus.jpeg" alt="Gambar Paulus Tiahahu" />
+              <h3>Paulus Tiahahu</h3>
+              <p>Ayah Christina Martha</p>
+            </div>
+            <div class="tokoh-card" onclick="openModal('vandenberg')">
+              <img src="van.jpeg" alt="Gambar Residen van den Berg" />
+              <h3>Residen van den Berg</h3>
+              <p>Residen Belanda Saparua</p>
+            </div>
+            <div class="tokoh-card" onclick="openModal('buyskes')">
+              <img src="residen.jpeg" alt="Gambar Laksamana Buyskes" />
+              <h3>Laksamana Buyskes</h3>
+              <p>Komandan Militer Belanda</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="fakta-menarik" class="section">
+          <h2>Fakta Menarik</h2>
+          <ul class="fakta-list">
+            <li>
+              Pattimura adalah seorang mantan Sersan Mayor di militer Inggris,
+              yang memberinya pengetahuan strategi militer modern saat itu.
+            </li>
+            <li>
+              Christina Martha Tiahahu baru berusia 17 tahun saat ikut
+              bertempur. Setelah ayahnya dieksekusi, ia ditangkap dan meninggal
+              di kapal dalam perjalanan ke pengasingan di Jawa.
+            </li>
+            <li>
+              Semboyan terkenal Pattimura yang sering dikutip adalah:
+              "Pattimura-Pattimura tua boleh dihancurkan, tetapi kelak akan
+              bangkit Pattimura-Pattimura muda."
+            </li>
+            <li>
+              Atas jasa-jasanya, Kapitan Pattimura diangkat sebagai Pahlawan
+              Nasional Indonesia dan wajahnya diabadikan dalam uang kertas
+              pecahan Rp 1.000 (edisi lama).
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer>
+        <p>Dibuat untuk mengenang jasa para pahlawan oleh Kelompok 2 11-A1.</p>
+      </footer>
+    </div>
+
+    <div id="pattimuraModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('pattimuraModal')"
+          >&times;</span
+        >
+        <img src="Pattimura.jpeg" alt="Gambar Kapitan Pattimura" />
+        <h3>Kapitan Pattimura (Thomas Matulessy)</h3>
+        <p>
+          Thomas Matulessy, atau lebih dikenal sebagai Kapitan Pattimura, adalah
+          pemimpin utama perlawanan rakyat Maluku terhadap pemerintahan kolonial
+          Belanda pada tahun 1817. Lahir di Haria, Saparua, ia sebelumnya
+          memiliki pengalaman militer sebagai mantan Sersan Mayor di korps
+          militer Inggris, yang memberinya bekal pengetahuan strategi perang.
+          Pattimura diangkat sebagai pemimpin dalam sebuah rapat rahasia dan
+          berhasil memimpin penyerbuan Benteng Duurstede. Setelah perjuangan
+          yang gigih, ia ditangkap karena pengkhianatan dan dieksekusi gantung
+          pada 16 Desember 1817 di Ambon.
+        </p>
+      </div>
+    </div>
+
+    <div id="christinaModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('christinaModal')"
+          >&times;</span
+        >
+        <img src="kristina.jpeg" alt="Gambar Christina Martha Tiahahu" />
+        <h3>Christina Martha Tiahahu</h3>
+        <p>
+          Christina Martha Tiahahu adalah seorang pejuang wanita muda yang
+          heroik dalam perlawanan Pattimura. Putri dari Kapitan Paulus Tiahahu
+          ini baru berusia 17 tahun saat ikut bertempur. Ia memimpin pasukan
+          wanita dan ikut dalam berbagai pertempuran sengit. Setelah ayahnya
+          dieksekusi, Christina Martha ditangkap dan meninggal dunia di atas
+          kapal saat dalam perjalanan ke pengasingan di Jawa, karena sakit dan
+          kelelahan. Semangat juangnya menjadi inspirasi bagi banyak orang.
+        </p>
+      </div>
+    </div>
+
+    <div id="reebhokModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('reebhokModal')"
+          >&times;</span
+        >
+        <img src="thoni.jpeg" alt="Gambar Anthoni Reebhok" />
+        <h3>Anthoni Reebhok</h3>
+        <p>
+          Anthoni Reebhok adalah salah satu kapitan kepercayaan Kapitan
+          Pattimura. Ia memainkan peran penting dalam perencanaan strategi dan
+          pelaksanaan serangan terhadap Belanda. Keberanian dan kesetiaannya
+          kepada Pattimura menjadikannya salah satu tokoh kunci dalam perlawanan
+          ini, membantu mengorganisir pasukan dan mempertahankan wilayah yang
+          direbut dari Belanda.
+        </p>
+      </div>
+    </div>
+
+    <div id="paulusModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('paulusModal')"
+          >&times;</span
+        >
+        <img src="Paulus.jpeg" alt="Gambar Paulus Tiahahu" />
+        <h3>Paulus Tiahahu</h3>
+        <p>
+          Paulus Tiahahu adalah ayah dari Christina Martha Tiahahu dan juga
+          seorang kapitan berpengaruh dari Nusalaut. Ia bersama putrinya dan
+          Kapitan Pattimura bahu-membahu dalam perjuangan melawan penindasan
+          Belanda. Keberaniannya dalam memimpin pasukannya dan pengorbanannya
+          untuk kemerdekaan Maluku sangat dihormati.
+        </p>
+      </div>
+    </div>
+
+    <div id="vandenbergModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('vandenbergModal')"
+          >&times;</span
+        >
+        <img src="van.jpeg" alt="Gambar Residen van den Berg" />
+        <h3>Residen van den Berg</h3>
+        <p>
+          Residen van den Berg adalah pejabat Belanda yang memimpin Benteng
+          Duurstede di Saparua. Sikapnya yang arogan, kebijakan yang menindas,
+          dan kurangnya rasa hormat terhadap pemimpin lokal menjadi salah satu
+          pemicu utama perlawanan Pattimura. Ia tewas dalam penyerbuan Benteng
+          Duurstede oleh pasukan Pattimura pada 16 Mei 1817.
+        </p>
+      </div>
+    </div>
+
+    <div id="buyskesModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('buyskesModal')"
+          >&times;</span
+        >
+        <img src="residen.jpeg" alt="Gambar Laksamana Buyskes" />
+        <h3>Laksamana Buyskes</h3>
+        <p>
+          Laksamana Buyskes adalah komandan militer Belanda yang dikirim untuk
+          menumpas perlawanan Pattimura setelah jatuhnya Benteng Duurstede. Ia
+          memimpin pasukan besar-besaran untuk merebut kembali wilayah-wilayah
+          yang dikuasai pejuang Maluku. Meskipun menghadapi perlawanan sengit,
+          pasukannya berhasil menekan perjuangan Pattimura hingga akhirnya
+          pemimpin perlawanan itu tertangkap.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Fungsi untuk membuka modal
+      function openModal(tokohId) {
+        const modal = document.getElementById(tokohId + "Modal");
+        if (modal) {
+          modal.style.display = "flex"; // Gunakan flex untuk memusatkan
+        }
+      }
+
+      // Fungsi untuk menutup modal
+      function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // Menutup modal jika user mengklik di luar konten modal
+      window.onclick = function (event) {
+        if (event.target.classList.contains("modal")) {
+          event.target.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>
